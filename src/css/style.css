@@ -1,0 +1,26 @@
+html, body {
+   font-family: 'Roboto', sans-serif;
+}
+
+.app-container {
+   width: 800px;
+   margin: 0 auto;
+   text-align: center;
+}
+
+label {
+   display: block;
+}
+
+input:focus {
+   outline: none;
+}
+
+.error-message {
+   font-size: 12px;
+   color: red;
+}
+
+.button {
+   cursor: pointer;
+}
