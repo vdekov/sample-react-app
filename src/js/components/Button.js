@@ -1,11 +1,12 @@
 import React from "react";
 
-function Button( props ) {
+export default function ( props ) {
    return (
-      <span className="button" onClick={ props.onClick }>
+      <button
+         className={ "button " + props.className || '' }
+         onClick={ props.onClick || function () {} }
+      >
          { props.children }
-      </span>
+      </button>
    );
 }
-
-export default Button;

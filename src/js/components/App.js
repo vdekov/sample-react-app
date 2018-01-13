@@ -60,49 +60,54 @@ class App extends React.Component {
    }
 
    render() {
-      // console.log( '>>> render' );
       const is_editable   = this.isEditable();
       const is_deletable  = this.isDeletable();
       const products_list = this.state.products.map( ( product, index ) => {
          return (
             <tr key={index}>
+               <td>{ index + 1 }</td>
                <td>{ product.name }</td>
                <td>{ product.price }</td>
                <td>{ product.currency }</td>
                { is_editable &&
-                  <td><Button onClick={ this.editProduct.bind( this, index ) }><i className="fas fa-edit"></i></Button></td>
+                  <td><Button className="is-small" onClick={ this.editProduct.bind( this, index ) }><i className="fas fa-edit"></i></Button></td>
                }
                { is_deletable &&
-                  <td><Button onClick={ this.deleteProduct.bind( this, index ) }><i className="fas fa-trash-alt"></i></Button></td>
+                  <td><Button className="is-small" onClick={ this.deleteProduct.bind( this, index ) }><i className="fas fa-trash-alt"></i></Button></td>
                }
             </tr>
          );
       });
 
       return (
-         <div className="app-container">
+         <div className="app-container columns">
             { this.isWritable() &&
-               <Form
-                  fields={ this.form_props }
-                  onSubmit={ this.addProduct }
-               />
+               <div className="column">
+                  <Form
+                     fields={ this.form_props }
+                     onSubmit={ this.addProduct }
+                  />
+               </div>
             }
 
             { this.isReadable() &&
-               <table>
-                  <thead>
-                     <tr>
-                        <td>Name</td>
-                        <td>Price</td>
-                        <td>Currency</td>
-                        { is_editable && <td>Edit</td> }
-                        { is_deletable && <td>Delete</td> }
-                     </tr>
-                  </thead>
-                  <tbody>
-                     { products_list }
-                  </tbody>
-               </table>
+               <div className="column">
+                  <table className="table is-fullwidth is-striped is-hoverable" border="0" cellSpacing="0" cellPadding="0">
+                     <thead>
+                        <tr>
+                           <td>#</td>
+                           <td>Name</td>
+                           <td>Price</td>
+                           <td>Currency</td>
+                           { is_editable && <td>Edit</td> }
+                           { is_deletable && <td>Delete</td> }
+                        </tr>
+                     </thead>
+                     <tbody>
+                        { products_list }
+                     </tbody>
+                  </table>
+               </div>
             }
          </div>
       );

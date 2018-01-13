@@ -1,19 +1,6 @@
-html, body {
-   font-family: 'Roboto', sans-serif;
-}
-
 .app-container {
    width: 800px;
    margin: 0 auto;
-   text-align: center;
-}
-
-label {
-   display: block;
-}
-
-input:focus {
-   outline: none;
 }
 
 .error-message {
@@ -21,6 +8,10 @@ input:focus {
    color: red;
 }
 
-.button {
+.btn {
    cursor: pointer;
+}
+
+.btn-delete:hover {
+   color: red;
 }

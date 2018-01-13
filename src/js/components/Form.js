@@ -1,5 +1,6 @@
 import React from "react";
 import InputField from "./InputField";
+import Button from './Button';
 
 class Form extends React.Component {
    constructor( props ) {
@@ -38,9 +39,13 @@ class Form extends React.Component {
                      onChange={ this.onChange }
                   />
                })}
-               <button type="submit" name="submit">Add</button>
+               <div className="field">
+                  <div className="control">
+                     <Button className="is-link">Add Product</Button>
+                  </div>
+               </div>
+               { ! this.is_valid && <div className="help is-danger">All fields are required!</div> }
             </form>
-            { ! this.is_valid && <span className="error-message">All fields are required!</span> }
          </div>
       );
    }
