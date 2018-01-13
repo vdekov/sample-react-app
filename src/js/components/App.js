@@ -19,25 +19,25 @@ class App extends React.Component {
                currency : "USD"
             }
          ],
-         permissions : []
+         permissions : [],
+         form_props  : [
+            {
+               label : 'Name',
+               type  : 'text',
+               name  : 'name'
+            },
+            {
+               label : 'Price',
+               type  : 'number',
+               name  : 'price'
+            },
+            {
+               label : 'Currency',
+               type  : 'text',
+               name  : 'currency'
+            }
+         ]
       };
-      this.form_props = [
-         {
-            label : 'Name',
-            type  : 'text',
-            name  : 'name'
-         },
-         {
-            label : 'Price',
-            type  : 'number',
-            name  : 'price'
-         },
-         {
-            label : 'Currency',
-            type  : 'text',
-            name  : 'currency'
-         }
-      ];
 
       this.addProduct = this.addProduct.bind( this );
 
@@ -84,7 +84,7 @@ class App extends React.Component {
             { this.isWritable() &&
                <div className="column">
                   <Form
-                     fields={ this.form_props }
+                     fields={ this.state.form_props }
                      onSubmit={ this.addProduct }
                   />
                </div>
