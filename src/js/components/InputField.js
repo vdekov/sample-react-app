@@ -1,13 +1,13 @@
-import React from "react";
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-function InputField ({
+const InputField = ({
    label,
    type,
    name,
    value,
    onChange
-}) {
+}) => {
    return (
       <div className="field">
          <label className="label">{ label || '' }</label>

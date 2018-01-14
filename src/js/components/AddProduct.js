@@ -1,10 +1,10 @@
-import React from "react";
-import InputField from "./InputField";
-import Button from './Button';
-import ErrorMessage from './ErrorMessage';
-import PropTypes from 'prop-types';
+import React from 'react'
+import InputField from './InputField'
+import Button from './Button'
+import ErrorMessage from './ErrorMessage'
+import PropTypes from 'prop-types'
 
-class Form extends React.Component {
+class AddProduct extends React.Component {
    constructor( props ) {
       super( props );
       this.empty_state = {};
@@ -31,29 +31,33 @@ class Form extends React.Component {
       }
 
       return (
-         <div>
-            <form onSubmit={ ( e ) => e.preventDefault() }>
-               {this.props.fields.map( ( field, index ) => {
-                  return <InputField
-                     key={ index }
-                     label={ field.label }
-                     type={ field.type }
-                     name={ field.name }
-                     value={ this.state[ field.name ] }
-                     onChange={ this.onChange }
-                  />
-               })}
-               <div className="field">
-                  <div className="control">
-                     <Button className="is-link" onClick={ this.onSubmit }>Add Product</Button>
-                  </div>
+         <form onSubmit={ ( e ) => e.preventDefault() }>
+            {this.props.fields.map( ( field, index ) => {
+               return <InputField
+                  key={ index }
+                  label={ field.label }
+                  type={ field.type }
+                  name={ field.name }
+                  value={ this.state[ field.name ] }
+                  onChange={ this.onChange }
+               />
+            })}
+            <div className="field">
+               <div className="control">
+                  <Button className="is-link" onClick={ this.onSubmit }>Add Product</Button>
                </div>
-               { ! this.is_valid && <ErrorMessage>All input fields are required!</ErrorMessage> }
-            </form>
-         </div>
+            </div>
+            { ! this.is_valid && <ErrorMessage>All input fields are required!</ErrorMessage> }
+         </form>
       );
    }
 
+   /**
+    * Callback responsible to update the input field value
+    * in the state on each change.
+    * @param  {Object} event
+    * @return {SyntheticEvent}       [description]
+    */
    onChange( event ) {
       const target = event.target;
 
@@ -63,6 +67,10 @@ class Form extends React.Component {
       });
    }
 
+   /**
+    * Callback that simulates the form submission
+    * @param  {SyntheticEvent} event
+    */
    onSubmit( event ) {
       // Make a check if all input fields are filled
       if ( Object.values( this.state ).includes( '' ) ) {
@@ -76,16 +84,18 @@ class Form extends React.Component {
       this.resetState();
    }
 
+   /**
+    * Reset the input fields values
+    */
    resetState() {
-      // Clear the input fields values
       this.is_valid = true;
       this.setState( this.empty_state );
    }
 }
 
-Form.propTypes = {
+AddProduct.propTypes = {
    fields   : PropTypes.array.isRequired,
    onSubmit : PropTypes.func.isRequired
 };
 
-export default Form;
+export default AddProduct;

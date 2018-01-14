@@ -1,46 +1,24 @@
-import React from 'react';
-import Form from './Form';
-import Button from './Button';
+import React from 'react'
+import AddProduct from './AddProduct'
+import ProductsList from './ProductsList'
 import API from '../api'
+import PropTypes from 'prop-types'
 
 class App extends React.Component {
    constructor( props ) {
       super( props );
       this.state = {
-         products : [
-            {
-               name     : "TV",
-               price    : 1000,
-               currency : "USD"
-            },
-            {
-               name     : "SSD",
-               price    : 100,
-               currency : "USD"
-            }
-         ],
-         permissions : [],
-         form_props  : [
-            {
-               label : 'Name',
-               type  : 'text',
-               name  : 'name'
-            },
-            {
-               label : 'Price',
-               type  : 'number',
-               name  : 'price'
-            },
-            {
-               label : 'Currency',
-               type  : 'text',
-               name  : 'currency'
-            }
-         ]
+         products    : [ ...this.props.products ],
+         permissions : []
       };
 
-      this.addProduct = this.addProduct.bind( this );
+      // Bind the component methods to prevent the creation of new functions
+      // on each render method execution.
+      this.addProduct    = this.addProduct.bind( this );
+      this.editProduct   = this.editProduct.bind( this );
+      this.deleteProduct = this.deleteProduct.bind( this );
 
+      // Instantiate new API object
       this.api = new API();
    }
 
@@ -61,31 +39,12 @@ class App extends React.Component {
    }
 
    render() {
-      const is_editable   = this.isEditable();
-      const is_deletable  = this.isDeletable();
-      const products_list = this.state.products.map( ( product, index ) => {
-         return (
-            <tr key={index}>
-               <td>{ index + 1 }</td>
-               <td>{ product.name }</td>
-               <td>{ product.price }</td>
-               <td>{ product.currency }</td>
-               { is_editable &&
-                  <td><Button className="is-small" onClick={ this.editProduct.bind( this, index ) }><i className="fas fa-edit"></i></Button></td>
-               }
-               { is_deletable &&
-                  <td><Button className="is-small is-danger is-outlined" onClick={ this.deleteProduct.bind( this, index ) }><i className="fas fa-trash-alt"></i></Button></td>
-               }
-            </tr>
-         );
-      });
-
       return (
          <div className="columns">
             { this.isWritable() &&
                <div className="column">
-                  <Form
-                     fields={ this.state.form_props }
+                  <AddProduct
+                     fields={ this.props.product_fields }
                      onSubmit={ this.addProduct }
                   />
                </div>
@@ -93,34 +52,34 @@ class App extends React.Component {
 
             { this.isReadable() &&
                <div className="column">
-                  <table className="table is-fullwidth is-striped is-hoverable" border="0" cellSpacing="0" cellPadding="0">
-                     <thead>
-                        <tr>
-                           <td>#</td>
-                           <td>Name</td>
-                           <td>Price</td>
-                           <td>Currency</td>
-                           { is_editable && <td>Edit</td> }
-                           { is_deletable && <td>Delete</td> }
-                        </tr>
-                     </thead>
-                     <tbody>
-                        { products_list }
-                     </tbody>
-                  </table>
+                  <ProductsList
+                     products={ this.state.products }
+                     is_editable={ this.isEditable() }
+                     is_deletable={ this.isDeletable() }
+                     onEdit={ this.editProduct }
+                     onDelete={ this.deleteProduct }
+                  />
                </div>
             }
          </div>
       );
    }
 
+   /**
+    * Add new product object to the state
+    * @param  {Object} product
+    */
    addProduct( product ) {
       this.setState({
          products : [ ...this.state.products, product ]
       });
    }
 
-   editProduct( index, event ) {
+   /**
+    * Modify existing product by a given index
+    * @param  {Number} index
+    */
+   editProduct( index ) {
       // Add a signature for a fake edit product API call execution
       /*
       this.api.execute({
@@ -137,12 +96,17 @@ class App extends React.Component {
       */
    }
 
-   deleteProduct( index, event ) {
+   /**
+    * Remove existing product from the state by a given index
+    * @param  {Number} index
+    * @return {Array}  deleted_product
+    */
+   deleteProduct( index ) {
       // Ask for a confirmation before to execute the API call
       const result = window.confirm( 'Are you sure you want to delete this product?' );
 
       if ( ! result ) {
-         return;
+         return [];
       }
 
       // Execute an API request to delete the product from the storage
@@ -155,32 +119,55 @@ class App extends React.Component {
             return;
          }
 
-         const next_products   = this.state.products.slice();
+         const next_products   = [ ...this.state.products ];
          const deleted_product = next_products.splice( index, 1 );
 
          this.setState({
             products : next_products
          });
+
+         return deleted_product;
       }).catch( errpr => {
          console.error( error.message );
       });
    }
 
+   /**
+    * Make a check for a write permissions
+    * @return {Boolean}
+    */
    isWritable() {
       return !! ~this.state.permissions.indexOf( 'CREATE' );
    }
 
+   /**
+    * Make a check for a read permissions
+    * @return {Boolean}
+    */
    isReadable() {
       return !! ~this.state.permissions.indexOf( 'READ' );
    }
 
+   /**
+    * Make a check for a update permissions
+    * @return {Boolean}
+    */
    isEditable() {
       return !! ~this.state.permissions.indexOf( 'UPDATE' );
    }
 
+   /**
+    * Make a check for a delete permissions
+    * @return {Boolean}
+    */
    isDeletable() {
       return !! ~this.state.permissions.indexOf( 'DELETE' );
    }
 }
+
+App.propTypes = {
+   products       : PropTypes.array.isRequired,
+   product_fields : PropTypes.array.isRequired
+};
 
 export default App;
