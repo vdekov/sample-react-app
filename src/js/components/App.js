@@ -73,7 +73,7 @@ class App extends React.Component {
                   <td><Button className="is-small" onClick={ this.editProduct.bind( this, index ) }><i className="fas fa-edit"></i></Button></td>
                }
                { is_deletable &&
-                  <td><Button className="is-small" onClick={ this.deleteProduct.bind( this, index ) }><i className="fas fa-trash-alt"></i></Button></td>
+                  <td><Button className="is-small is-danger is-outlined" onClick={ this.deleteProduct.bind( this, index ) }><i className="fas fa-trash-alt"></i></Button></td>
                }
             </tr>
          );

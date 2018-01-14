@@ -2,16 +2,3 @@
    width: 800px;
    margin: 0 auto;
 }
-
-.error-message {
-   font-size: 12px;
-   color: red;
-}
-
-.btn {
-   cursor: pointer;
-}
-
-.btn-delete:hover {
-   color: red;
-}
