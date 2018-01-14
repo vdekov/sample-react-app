@@ -1,12 +1,29 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
-export default function ( props ) {
+function Button ({
+   className,
+   onClick,
+   children
+}) {
    return (
       <button
-         className={ "button " + props.className || '' }
-         onClick={ props.onClick || function () {} }
+         className={ "button " + className }
+         onClick={ onClick }
       >
-         { props.children }
+         { children }
       </button>
    );
 }
+
+Button.defaultProps = {
+   onClick : function () {}
+};
+
+Button.propTypes = {
+   className : PropTypes.string,
+   onClick   : PropTypes.func.isRequired,
+   children  : PropTypes.node.isRequired
+};
+
+export default Button;

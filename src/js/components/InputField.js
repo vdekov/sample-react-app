@@ -1,18 +1,35 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
-export default function ( props ) {
+function InputField ({
+   label,
+   type,
+   name,
+   value,
+   onChange
+}) {
    return (
       <div className="field">
-         <label className="label">{ props.label }</label>
+         <label className="label">{ label || '' }</label>
          <div className="control">
             <input
                className="input"
-               type={ props.type}
-               name={ props.name }
-               value={ props.value }
-               onChange={ props.onChange }
+               type={ type}
+               name={ name }
+               value={ value || '' }
+               onChange={ onChange }
             />
          </div>
       </div>
    );
 }
+
+InputField.propTypes = {
+   label    : PropTypes.string,
+   type     : PropTypes.string.isRequired,
+   name     : PropTypes.string.isRequired,
+   value    : PropTypes.string,
+   onChange : PropTypes.func.isRequired
+};
+
+export default InputField;

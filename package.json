@@ -6,8 +6,8 @@
   "scripts": {
     "watch": "parcel watch src/index.html --public-url ./",
     "build": "parcel build src/index.html --public-url ./",
-    "start": "npm run build && node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "node server.js",
+    "start": "npm run build && npm run server"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/vdekov/sample-react-app#readme",
   "dependencies": {
+    "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "restify": "^6.3.4"

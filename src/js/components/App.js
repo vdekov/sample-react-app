@@ -80,7 +80,7 @@ class App extends React.Component {
       });
 
       return (
-         <div className="app-container columns">
+         <div className="columns">
             { this.isWritable() &&
                <div className="column">
                   <Form
@@ -114,9 +114,8 @@ class App extends React.Component {
    }
 
    addProduct( product ) {
-      // TODO: Use spread operator [ ...this.state.products, product ]
       this.setState({
-         products : this.state.products.concat( [ product ] )
+         products : [ ...this.state.products, product ]
       });
    }
 

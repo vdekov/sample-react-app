@@ -1,6 +1,8 @@
 import React from "react";
 import InputField from "./InputField";
 import Button from './Button';
+import ErrorMessage from './ErrorMessage';
+import PropTypes from 'prop-types';
 
 class Form extends React.Component {
    constructor( props ) {
@@ -28,10 +30,10 @@ class Form extends React.Component {
 
       return (
          <div>
-            <form onSubmit={ this.onSubmit }>
+            <form onSubmit={ ( e ) => e.preventDefault() }>
                {this.props.fields.map( ( field, index ) => {
                   return <InputField
-                     key={index}
+                     key={ index }
                      label={ field.label }
                      type={ field.type }
                      name={ field.name }
@@ -41,10 +43,10 @@ class Form extends React.Component {
                })}
                <div className="field">
                   <div className="control">
-                     <Button className="is-link">Add Product</Button>
+                     <Button className="is-link" onClick={ this.onSubmit }>Add Product</Button>
                   </div>
                </div>
-               { ! this.is_valid && <div className="help is-danger">All fields are required!</div> }
+               { ! this.is_valid && <ErrorMessage>All input fields are required!</ErrorMessage> }
             </form>
          </div>
       );
@@ -59,8 +61,6 @@ class Form extends React.Component {
    }
 
    onSubmit( event ) {
-      event.preventDefault();
-
       // Make a check if all input fields are filled
       if ( Object.values( this.state ).includes( '' ) ) {
          this.is_valid = false;
@@ -78,5 +78,10 @@ class Form extends React.Component {
       this.setState( this.empty_state );
    }
 }
+
+Form.propTypes = {
+   fields   : PropTypes.array.isRequired,
+   onSubmit : PropTypes.func.isRequired
+};
 
 export default Form;
