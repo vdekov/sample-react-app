@@ -45,6 +45,7 @@ class App extends React.Component {
    }
 
    componentWillMount() {
+      // Execute an API request to get the available permissions
       this.api.execute({
             action : 'get',
             url    : 'permissions'
@@ -120,6 +121,7 @@ class App extends React.Component {
    }
 
    editProduct( index, event ) {
+      // Add a signature for a fake edit product API call execution
       /*
       this.api.execute({
          action : 'put',
@@ -136,12 +138,14 @@ class App extends React.Component {
    }
 
    deleteProduct( index, event ) {
+      // Ask for a confirmation before to execute the API call
       const result = window.confirm( 'Are you sure you want to delete this product?' );
 
       if ( ! result ) {
          return;
       }
 
+      // Execute an API request to delete the product from the storage
       this.api.execute({
          action : 'delete',
          params : JSON.stringify({ id : index })
@@ -151,8 +155,8 @@ class App extends React.Component {
             return;
          }
 
-         const next_products    = this.state.products.slice();
-         const deleted_product  = next_products.splice( index, 1 );
+         const next_products   = this.state.products.slice();
+         const deleted_product = next_products.splice( index, 1 );
 
          this.setState({
             products : next_products

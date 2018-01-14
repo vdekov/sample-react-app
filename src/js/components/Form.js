@@ -10,11 +10,13 @@ class Form extends React.Component {
       this.empty_state = {};
       this.is_valid    = true;
 
-      // Configure the state
+      // Configure the state - prefill all input fields with an empty value
       this.props.fields.forEach( ( field ) => {
          this.empty_state[ field.name ] = '';
       })
 
+      // Bind the component methods to prevent the creation of new functions
+      // on each render method execution.
       this.onChange = this.onChange.bind( this );
       this.onSubmit = this.onSubmit.bind( this );
    }
@@ -55,6 +57,7 @@ class Form extends React.Component {
    onChange( event ) {
       const target = event.target;
 
+      // Update the input field value in the component state
       this.setState({
          [target.name] : target.value
       });
@@ -74,6 +77,7 @@ class Form extends React.Component {
    }
 
    resetState() {
+      // Clear the input fields values
       this.is_valid = true;
       this.setState( this.empty_state );
    }
