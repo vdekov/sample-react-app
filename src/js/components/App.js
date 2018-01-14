@@ -93,7 +93,7 @@ class App extends React.Component {
 
             { this.isReadable() &&
                <div className="column">
-                  <table className="table is-fullwidth is-striped is-hoverable" border="0" cellSpacing="0" cellPadding="0">
+                  <table className="table is-fullwidth is-striped is-hoverable">
                      <thead>
                         <tr>
                            <td>#</td>
