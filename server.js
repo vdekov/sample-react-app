@@ -6,6 +6,9 @@ const server = restify.createServer({
    name : 'sample-react-app'
 });
 
+// Enable body parser
+server.use( restify.plugins.bodyParser({ mapParams: false }) );
+
 // Handle GET request to the permissions URL
 server.get( '/permissions', ( request, response, next ) => {
    fs.readFile( 'permissions.json', 'utf-8', ( err, data ) => {
