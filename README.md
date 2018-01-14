@@ -5,6 +5,10 @@ Sample React application with test purposes.
 
 ## Getting Started
 
+### Prerequisites
+
+You should have at least `NodeJS v7.6.0` installed on your machine.
+
 ### Build instructions
 
 Use the following steps to build the application:
