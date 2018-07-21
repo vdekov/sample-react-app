@@ -25,16 +25,16 @@
   "homepage": "https://github.com/vdekov/sample-react-app#readme",
   "dependencies": {
     "prop-types": "^15.6.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-redux": "^5.0.6",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-redux": "^5.0.7",
     "redux": "^3.7.2",
     "restify": "^6.3.4"
   },
   "devDependencies": {
-    "babel-preset-env": "^1.6.1",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "nodemon": "^1.14.11",
-    "parcel-bundler": "^1.4.1"
+    "nodemon": "^1.18.3",
+    "parcel-bundler": "^1.9.7"
   }
 }
