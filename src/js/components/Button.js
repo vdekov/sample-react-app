@@ -8,7 +8,7 @@ const Button = ({
 }) => {
    return (
       <button
-         className={ "button " + className }
+         className={ 'button ' + className }
          onClick={ onClick }
       >
          { children }
