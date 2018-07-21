@@ -3,6 +3,10 @@ class API {
       this.api_url = '/api';
    }
 
+   /**
+    * Execute a request to the API by a given option object
+    * @param  {Object} options
+    */
    execute( options ) {
       return new Promise ( ( success, failure ) => {
          const init = {

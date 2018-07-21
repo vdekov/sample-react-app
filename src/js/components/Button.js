@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
-function Button ({
+const Button = ({
    className,
    onClick,
    children
-}) {
+}) => {
    return (
       <button
          className={ 'button ' + className }
