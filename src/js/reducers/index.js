@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import products from './products';
+import permissions from './permissions';
 
-const productsApp = combineReducers({
-   products
+const root_reducer = combineReducers({
+   products,
+   permissions
 });
 
-export default productsApp
+export default root_reducer;

@@ -1,6 +1,19 @@
-const products = ( state = [], action ) => {
+const preloaded_state = [
+   {
+      name     : "TV",
+      price    : 1000,
+      currency : "USD"
+   },
+   {
+      name     : "SSD",
+      price    : 100,
+      currency : "USD"
+   }
+];
+
+const products = ( state = preloaded_state, action ) => {
    switch ( action.type ) {
-      case "ADD_PRODUCT":
+      case 'ADD_PRODUCT':
          return [
             ...state,
             {
@@ -9,7 +22,7 @@ const products = ( state = [], action ) => {
                currency : action.currency
             }
          ];
-      case "REMOVE_PRODUCT":
+      case 'REMOVE_PRODUCT':
          const next_state = state.slice();
          next_state.splice( action.id, 1 );
          return next_state;

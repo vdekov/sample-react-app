@@ -1,69 +1,27 @@
 import React from 'react';
-import Form from './Form';
+import { connect } from 'react-redux';
+import FormAddProduct from '../containers/FormAddProduct';
 import Button from './Button';
-import API from '../api'
+import DeleteButton from '../containers/DeleteButton';
+import { fetchPermissions } from '../actions';
+import { add_product } from '../config/form_fields';
 
 class App extends React.Component {
-   constructor( props ) {
-      super( props );
-      this.state = {
-         products : [
-            {
-               name     : "TV",
-               price    : 1000,
-               currency : "USD"
-            },
-            {
-               name     : "SSD",
-               price    : 100,
-               currency : "USD"
-            }
-         ],
-         permissions : [],
-         form_props  : [
-            {
-               label : 'Name',
-               type  : 'text',
-               name  : 'name'
-            },
-            {
-               label : 'Price',
-               type  : 'number',
-               name  : 'price'
-            },
-            {
-               label : 'Currency',
-               type  : 'text',
-               name  : 'currency'
-            }
-         ]
-      };
-
-      this.addProduct = this.addProduct.bind( this );
-
-      this.api = new API();
-   }
-
    componentWillMount() {
-      // Execute an API request to get the available permissions
-      this.api.execute({
-            action : 'get',
-            url    : 'permissions'
-      }).then( data => {
-         if ( ! data.success ) {
-            console.error( 'There wan an error during the API call execution.' );
-            return;
-         }
-         this.setState( data.data );
-      }).catch( error => {
-         console.error( error.message );
-      });
+      this.props.fetchPermissions();
    }
 
    render() {
-      const is_editable   = this.isEditable();
-      const is_deletable  = this.isDeletable();
-      const products_list = this.state.products.map( ( product, index ) => {
+      const {
+         products,
+         is_writable,
+         is_readable,
+         is_editable,
+         is_deletable,
+         addProduct,
+      } = this.props;
+
+      const products_list = products.map( ( product, index ) => {
          return (
             <tr key={index}>
                <td>{ index + 1 }</td>
@@ -71,10 +29,10 @@ class App extends React.Component {
                <td>{ product.price }</td>
                <td>{ product.currency }</td>
                { is_editable &&
-                  <td><Button className="is-small" onClick={ this.editProduct.bind( this, index ) }><i className="fas fa-edit"></i></Button></td>
+                  <td><Button className="is-small" onClick={ (() => {}).bind( this, index ) } index={ index }><i className="fas fa-edit"></i></Button></td>
                }
                { is_deletable &&
-                  <td><Button className="is-small is-danger is-outlined" onClick={ this.deleteProduct.bind( this, index ) }><i className="fas fa-trash-alt"></i></Button></td>
+                  <td><DeleteButton className="is-small is-danger is-outlined" index={ index }><i className="fas fa-trash-alt"></i></DeleteButton></td>
                }
             </tr>
          );
@@ -82,16 +40,13 @@ class App extends React.Component {
 
       return (
          <div className="columns">
-            { this.isWritable() &&
+            { is_writable &&
                <div className="column">
-                  <Form
-                     fields={ this.state.form_props }
-                     onSubmit={ this.addProduct }
-                  />
+                  <FormAddProduct fields={ add_product }/>
                </div>
             }
 
-            { this.isReadable() &&
+            { is_readable &&
                <div className="column">
                   <table className="table is-fullwidth is-striped is-hoverable">
                      <thead>
@@ -113,74 +68,22 @@ class App extends React.Component {
          </div>
       );
    }
-
-   addProduct( product ) {
-      this.setState({
-         products : [ ...this.state.products, product ]
-      });
-   }
-
-   editProduct( index, event ) {
-      // Add a signature for a fake edit product API call execution
-      /*
-      this.api.execute({
-         action : 'put',
-         params : JSON.stringify({ id : index })
-      }).then( data => {
-         if ( ! data.success ) {
-            console.error( 'There wan an error during the API call execution.' );
-            return;
-         }
-      }).catch( errpr => {
-         console.error( error.message );
-      });
-      */
-   }
-
-   deleteProduct( index, event ) {
-      // Ask for a confirmation before to execute the API call
-      const result = window.confirm( 'Are you sure you want to delete this product?' );
-
-      if ( ! result ) {
-         return;
-      }
-
-      // Execute an API request to delete the product from the storage
-      this.api.execute({
-         action : 'delete',
-         params : JSON.stringify({ id : index })
-      }).then( data => {
-         if ( ! data.success ) {
-            console.error( 'There wan an error during the API call execution.' );
-            return;
-         }
-
-         const next_products   = this.state.products.slice();
-         const deleted_product = next_products.splice( index, 1 );
-
-         this.setState({
-            products : next_products
-         });
-      }).catch( errpr => {
-         console.error( error.message );
-      });
-   }
-
-   isWritable() {
-      return !! ~this.state.permissions.indexOf( 'CREATE' );
-   }
-
-   isReadable() {
-      return !! ~this.state.permissions.indexOf( 'READ' );
-   }
-
-   isEditable() {
-      return !! ~this.state.permissions.indexOf( 'UPDATE' );
-   }
-
-   isDeletable() {
-      return !! ~this.state.permissions.indexOf( 'DELETE' );
-   }
 }
+
+const mapStateToPros = ( state, own_props ) => ({
+   products     : state.products,
+   is_writable  : state.permissions.includes( 'CREATE' ),
+   is_readable  : state.permissions.includes( 'READ' ),
+   is_editable  : state.permissions.includes( 'UPDATE' ),
+   is_deletable : state.permissions.includes( 'DELETE' ),
+});
+
+const mapDispatchToProps = ( dispatch, own_props ) => ({
+   fetchPermissions : () => {
+      dispatch( fetchPermissions() );
+   },
+});
+
+App = connect( mapStateToPros, mapDispatchToProps )( App );
 
 export default App;

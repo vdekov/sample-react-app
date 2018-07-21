@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import PropTypes from 'prop-types';
 
 function Button ({
@@ -8,7 +8,7 @@ function Button ({
 }) {
    return (
       <button
-         className={ "button " + className }
+         className={ 'button ' + className }
          onClick={ onClick }
       >
          { children }
