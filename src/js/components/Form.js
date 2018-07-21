@@ -4,7 +4,7 @@ import Button from './Button'
 import ErrorMessage from './ErrorMessage'
 import PropTypes from 'prop-types'
 
-class AddProduct extends React.Component {
+class Form extends React.Component {
    constructor( props ) {
       super( props );
       this.empty_state = {};
@@ -93,9 +93,9 @@ class AddProduct extends React.Component {
    }
 }
 
-AddProduct.propTypes = {
+Form.propTypes = {
    fields   : PropTypes.array.isRequired,
    onSubmit : PropTypes.func.isRequired
 };
 
-export default AddProduct;
+export default Form;
