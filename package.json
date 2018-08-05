@@ -31,12 +31,9 @@
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "restify": "^6.3.4"
-  },
-  "devDependencies": {
+    "restify": "^6.3.4",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "nodemon": "^1.18.3",
     "parcel-bundler": "^1.9.7"
   }
 }

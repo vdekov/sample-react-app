@@ -18,7 +18,6 @@ class App extends React.Component {
          is_readable,
          is_editable,
          is_deletable,
-         addProduct,
       } = this.props;
 
       const products_list = products.map( ( product, index ) => {
